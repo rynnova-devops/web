@@ -19,9 +19,9 @@ jobs:
       - id: step1
         run: |
           if [ ${{ github.ref_name }} == "prd" ]; then
-            echo "iam_role_arn=arn:aws:iam::174402182021:policy/ecr_write_read_no_delete_perms" >> $GITHUB_OUTPUT
+            echo "iam_role_arn=arn:aws:iam::174402182021:role/ECR-GHA" >> $GITHUB_OUTPUT
           else
-            echo "iam_role_arn=arn:aws:iam::174402182021:policy/ecr_write_read_no_delete_perms" >> $GITHUB_OUTPUT
+            echo "iam_role_arn=arn:aws:iam::174402182021:role/ECR-GHA" >> $GITHUB_OUTPUT
           fi
       - id: step2
         run: |
