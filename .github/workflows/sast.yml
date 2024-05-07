@@ -1,0 +1,18 @@
+name: Fortify ScanCentral SAST Scan
+on:
+  workflow_dispatch
+jobs:
+  fortify_non_prod_scan:
+    uses: SPHTech-Platform/reusable-workflows/.github/workflows/fortify.yaml@main
+    with:
+      APPLICATION: "zbschools"
+      VERSION: "php"
+    secrets: inherit
+    if: ${{ github.event.pull_request.base.ref != 'master' }}
+  fortify_prod_scan:
+    uses: SPHTech-Platform/reusable-workflows/.github/workflows/fortify.yaml@main
+    with:
+      APPLICATION: "zbschools"
+      VERSION: "php"
+    secrets: inherit
+    if: ${{ github.event.pull_request.base.ref == 'master' }}
