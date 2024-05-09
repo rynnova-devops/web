@@ -124,3 +124,6 @@ jobs:
           cluster_name: "tttt"
           # args: set image --record deployment/pod-name pod-name=${{ needs.publish-to-ecr.outputs.IMAGE_URL }}
           args: get no
+      - name: echoooo
+        run: |
+          cat /github/home/.kube/config
