@@ -62,6 +62,8 @@ jobs:
       contents: read
       id-token: write
     environment: ${{ github.ref_name }}
+    outputs:
+      image: ${{ steps.output.outputs.test }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -82,19 +84,22 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Setup image tag
+      - name: Setup image
         run: |
+          echo "REGISTRY=${{steps.login-ecr.outputs.registry}}" >> "${GITHUB_ENV}"
+          echo "REPOSITORY=web" >> "${GITHUB_ENV}"
           echo "IMAGE_TAG=${GITHUB_SHA::8}" >> "${GITHUB_ENV}"
         shell: bash
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Publish to ECR
+        id: push
         uses: docker/build-push-action@v3
-        env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: "web"
         with:
           file: ./Dockerfile
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }}
           context: .
+      - name: Output
+        id: output
+        run: echo "image=${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }}" >> "$GITHUB_OUTPUT"
