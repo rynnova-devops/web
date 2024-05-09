@@ -121,5 +121,6 @@ jobs:
       - name: Kubectl
         uses: ianbelcher/eks-kubectl-action@master
         with:
-          cluster_name: ${{ secrets.CLUSTER_NAME }}
-          args: set image --record deployment/pod-name pod-name=${{ needs.publish-to-ecr.outputs.IMAGE_URL }}
+          cluster_name: "tttt"
+          # args: set image --record deployment/pod-name pod-name=${{ needs.publish-to-ecr.outputs.IMAGE_URL }}
+          args: get no
